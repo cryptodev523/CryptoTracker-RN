@@ -1,29 +1,36 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * Generated with the TypeScript template
- * https://github.com/react-native-community/react-native-template-typescript
- *
- * @format
- */
-
 import "react-native-gesture-handler";
-import React from "react";
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-} from "react-native";
-import { AppNavigator } from "./src/navigation";
 
-declare const global: { HermesInternal: null | {} };
+import React from "react";
+import { Provider } from "react-redux";
+import { NavigationContainer } from "@react-navigation/native";
+import {
+  createStackNavigator,
+  StackNavigationOptions,
+} from "@react-navigation/stack";
+
+import store from "./src/store";
+import { RootStackParamList } from "./src/types/Navigation";
+
+import HomeScreen from "./src/screens/HomeScreen";
+import CoinScreen from "./src/screens/CoinScreen";
+
+const Stack = createStackNavigator<RootStackParamList>();
+const screenOptions: StackNavigationOptions = {
+  animationEnabled: false,
+  headerShown: false,
+};
 
 const App = () => {
-  return <AppNavigator />;
+  return (
+    <Provider store={store}>
+      <NavigationContainer>
+        <Stack.Navigator screenOptions={screenOptions} initialRouteName="Home">
+          <Stack.Screen name="Home" component={HomeScreen} />
+          <Stack.Screen name="Coin" component={CoinScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
+  );
 };
 
 export default App;
